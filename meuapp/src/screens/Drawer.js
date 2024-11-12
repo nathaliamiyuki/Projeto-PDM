@@ -1,10 +1,10 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import Home from "./Home";
-import NovaPesquisa from "./NovaPesquisa";
-import AcoesPesquisa from "./AcoesPesquisa";
-import Coleta from "./Coleta";
-import AgradecimentoPartic from "./AgradecimentoPartic";
-import ModificarPesquisa from "./ModificarPesquisa";
+import Home from './src/screens/Home';
+import NovaPesquisa from './src/screens/NovaPesquisa';
+import AcoesPesquisa from './src/screens/AcoesPesquisa';
+import Coleta from './src/screens/Coleta';
+import AgradecimentoPartic from './src/screens/AgradecimentoPartic';
+import ModificarPesquisa from './src/screens/ModificarPesquisa';
 
 
 const DrawerNavigator = createDrawerNavigator();

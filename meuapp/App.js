@@ -11,6 +11,8 @@ import AcoesPesquisa from './src/screens/AcoesPesquisa';
 import Coleta from './src/screens/Coleta';
 import AgradecimentoPartic from './src/screens/AgradecimentoPartic';
 import ModificarPesquisa from './src/screens/ModificarPesquisa';
+import Drawer from './src/screens/Drawer';
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -22,6 +24,7 @@ const App = () => {
           component={Login}
           options={{headerShown: false}}
         />
+        <Stack.Screen name="Drawer" component={Drawer}/>
         <Stack.Screen
           name="Cadastro"
           component={Cadastro}
