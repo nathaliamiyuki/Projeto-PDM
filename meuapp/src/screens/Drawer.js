@@ -99,23 +99,26 @@ const styles = StyleSheet.create({
       backgroundColor: '#2B1D62',
     },
     emailContainer: {
-      padding: 16,
+      padding: 5,
       marginTop: 20,
+      alignItems: 'center',
     },
     emailText: {
       color: '#FFFFFF',
-      fontSize: 16,
+      fontSize: 20,
       fontFamily: 'AveriaLibre-Regular',
       marginBottom: 10,
+      textAlign: 'center',
     },
     divider: {
       height: 1,
       backgroundColor: '#FFFFFF',
       marginTop: 5,
+      width: '100%',
     },
     drawerItemLabel: {
       color: '#FFFFFF',
-      fontSize: 16,
+      fontSize: 20,
       fontFamily: 'AveriaLibre-Regular',
     },
     drawerIcon: {
