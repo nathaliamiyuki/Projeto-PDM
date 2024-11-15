@@ -18,13 +18,17 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen
           name="Login"
           component={Login}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="Drawer" component={Drawer}/>
+        <Stack.Screen
+          name="Drawer"
+          component={Drawer}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Cadastro"
           component={Cadastro}
@@ -73,13 +77,13 @@ const App = () => {
               color: '#FFFFFF',
               fontSize: 38,
             }, title: '',
-            headerLeft: () => (
+            headerLeft: ({ navigation }) => (
               <TouchableOpacity
                 onPress={() => {
-                  /* quando clicar no icone*/
+                  navigation.navigate('Drawer');
                 }}>
                 <Image
-                  style={{width: 50, height: 26, marginLeft: 15}}
+                  style={{ width: 50, height: 26, marginLeft: 15 }}
                   source={require('../meuapp/src/img/home_icone.png')}
                 />
               </TouchableOpacity>
