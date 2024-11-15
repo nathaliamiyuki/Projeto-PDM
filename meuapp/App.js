@@ -66,7 +66,7 @@ const App = () => {
         <Stack.Screen
           name="Home"
           component={Home}
-          options={{
+          options={ ({navigation}) => ({  
             headerStyle: {
               backgroundColor: '#2B1D62', 
             },
@@ -77,7 +77,7 @@ const App = () => {
               color: '#FFFFFF',
               fontSize: 38,
             }, title: '',
-            headerLeft: ({ navigation }) => (
+            headerLeft: () => (
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('Drawer');
@@ -88,7 +88,7 @@ const App = () => {
                 />
               </TouchableOpacity>
             ),
-          }}
+          })}
         />
         <Stack.Screen
           name="NovaPesquisa"
