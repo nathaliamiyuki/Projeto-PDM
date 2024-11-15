@@ -17,7 +17,7 @@ const Login = props => {
     props.navigation.navigate('RecuperacaoSenha');
   };
   const Home = () => {
-    props.navigation.navigate('Drawer');
+    props.navigation.navigate('Home');
   };
   return (
     <View style={styles.container}>
