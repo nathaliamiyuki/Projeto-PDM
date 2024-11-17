@@ -25,7 +25,7 @@ const App = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Drawer"
+          name="Home"
           component={Drawer}
           options={{headerShown: false}}
         />
@@ -62,33 +62,6 @@ const App = () => {
             },
             title: 'Recuperação de senha', 
           }}
-        />
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={ ({navigation}) => ({  
-            headerStyle: {
-              backgroundColor: '#2B1D62', 
-            },
-            headerTintColor: '#573FBA', 
-            headerTitleStyle: {
-              fontFamily: 'AveriaLibre-Regular',
-              fontWeight: '400',
-              color: '#FFFFFF',
-              fontSize: 38,
-            }, title: '',
-            headerLeft: () => (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Drawer');
-                }}>
-                <Image
-                  style={{ width: 50, height: 26, marginLeft: 15 }}
-                  source={require('../meuapp/src/img/home_icone.png')}
-                />
-              </TouchableOpacity>
-            ),
-          })}
         />
         <Stack.Screen
           name="NovaPesquisa"
