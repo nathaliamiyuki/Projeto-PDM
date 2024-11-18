@@ -4,6 +4,9 @@ import { TouchableOpacity, Image, View, Text, StyleSheet } from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Home from './Home';
 import AcoesPesquisa from './AcoesPesquisa';
+import FontistoIcon from 'react-native-vector-icons/Fontisto';
+import FeatherIcon from 'react-native-vector-icons/Feather';
+
 
 const DrawerNavigator = createDrawerNavigator();
 
@@ -20,9 +23,10 @@ const CustomDrawerContent = (props) => {
             label="Pesquisas"
             labelStyle={styles.drawerItemLabel}
             icon={({ color, size }) => (
-              <Image
-                source={require('../img/file_icon.png')}
-                style={styles.drawerIcon}
+              <FontistoIcon
+                name="file-1"
+                color="#FFFFFF"
+                size={size}
               />
             )}
             //onPress={() => props.navigation.navigate('AcoesPesquisa')}
@@ -34,9 +38,10 @@ const CustomDrawerContent = (props) => {
             label="Sair"
             labelStyle={styles.drawerItemLabel}
             icon={({ color, size }) => (
-              <Image
-                source={require('../img/logout_icon.png')}
-                style={styles.drawerIcon}
+              <FeatherIcon
+                name="log-out"
+                color="#FFFFFF"
+                size={size}
               />
             )}
             onPress={() => {
@@ -77,9 +82,11 @@ const Drawer = () => {
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => navigation.toggleDrawer()}>
-              <Image
-                style={{ width: 50, height: 26, marginLeft: 15 }}
-                source={require('../img/home_icone.png')}
+              <FeatherIcon 
+                name="menu"
+                size={48}
+                color="#FFFFFF"
+                style={{marginLeft: 20}}
               />
             </TouchableOpacity>
           ),

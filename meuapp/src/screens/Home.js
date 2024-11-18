@@ -13,7 +13,7 @@ const Card = ({ iconName, title, date, onPress }) => {
     <TouchableOpacity onPress={onPress} style={styles.card}>
       <Icon 
         name={iconName} 
-        size={45} 
+        size={128} 
         color="#3F92C5"
       />
       <Text style={styles.cardTitle}>{title}</Text>
@@ -46,11 +46,18 @@ const Home = props => {
       title: 'MENINAS CPU',
       date: '01/04/2022',
     },
+    {
+      id: 4,
+      iconName: 'account-outline',
+      title: 'TESTE',
+      date: '01/04/2022',
+    },
   ];
 
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
+      <Icon style={styles.searchIcon} name="magnify" size={40} color="#666666"/>
         <TextInput
           style={styles.input}
           placeholder="Insira o termo de busca..."
@@ -86,12 +93,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#372775',
     padding: 16,
-    paddingBottom: 0,
+    height: '100%',
+    justifyContent: 'space-between',
+    gap : 10,
+    alignItems: 'center',
   },
   inputContainer: {
-    marginBottom: 20,
     width: '95%',
-    alignSelf: 'center',
   },
   input: {
     height: 40,
@@ -100,22 +108,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   cardsContainer: {
+    display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'flex-start',
-    flexWrap: 'wrap',
-    gap: 16,
+    gap: 49,
+    width: '95%',
   },
   card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 8,
-    padding: 16,
-    width: 160,
-    height: 140,
+    width: 320,
+    height: 240,
     alignItems: 'center',
     justifyContent: 'center',
+    margin : 0,
+    elevation: 3,
   },
   cardTitle: {
-    fontSize: 14,
+    fontSize: 36,
     color: '#3F92C5',
     textAlign: 'center',
     marginBottom: 4,
@@ -123,7 +134,7 @@ const styles = StyleSheet.create({
     fontFamily: 'AveriaLibre-Regular',
   },
   cardDate: {
-    fontSize: 12,
+    fontSize: 18,
     color: '#8B8B8B',
     textAlign: 'center',
     fontFamily: 'AveriaLibre-Regular',
@@ -132,10 +143,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#37BD6D',
     padding: 12,
     alignItems: 'center',
-    position: 'absolute',
-    bottom: 16,
     width: '95%',
-    alignSelf: 'center',
   },
   buttonText: {
     color: '#FFFFFF',
