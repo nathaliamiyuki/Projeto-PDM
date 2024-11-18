@@ -25,7 +25,7 @@ const App = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Home"
+          name="HomeWithDrawer"
           component={Drawer}
           options={{headerShown: false}}
         />
