@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import { Alert } from 'react-native';
 
@@ -52,11 +52,12 @@ const ModificarPesquisa = props => {
         <View style={styles.inputContainerImg}>
           <Text style={styles.email}>Imagem</Text>
           
-          <View style={styles.inputImg}>
-            <Image
+          <View style={styles.inputIcon}>
+            {/* <Image
               style={styles.img}
               source={require('../img/ModificarPesquisa01.png')}
-            />
+            /> */}
+            <Icon name="party-popper" size={60} color="pink" />
           </View>
         </View>
       </View>
@@ -68,7 +69,7 @@ const ModificarPesquisa = props => {
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.deleteContainer} onPress={mostraModal}>
-        <Icon name="delete" size={30} color="#FFFFFF" />
+        <Icon name="delete-outline" size={30} color="#FFFFFF" />
         <Text style={styles.deleteText}>Apagar</Text>
       </TouchableOpacity>
 
@@ -103,10 +104,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#372775',
     padding: 20,
   },
-  img: {
-    width: 60,
-    height: 60,
-  },
   inputContainer: {
     width: '75%',
     marginBottom: 15,
@@ -117,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     color: '#939393',
   },
-  inputImg: {
+  inputIcon: {
     height: 80,
     alignItems: 'center',
     justifyContent:'center',

@@ -8,6 +8,8 @@ import {
   Image,
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 const Login = props => {
   
   const Registro = () => {
@@ -25,8 +27,11 @@ const Login = props => {
         <View style={styles.layout}>
           <Text style={styles.text}>Satisfying.you</Text>
         </View>
-        <View style={styles.container_img}>
+        {/* <View style={styles.container_img}>
           <Image style={styles.img} source={require('../img/img_01.png')} />
+        </View> */}
+        <View style={styles.container_icon}>
+          <Icon name="mood" size={60} color="#FFFFFF" />
         </View>
       </View>
 
@@ -93,14 +98,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FFFFFF',
   },
-  container_img: {
+  container_icon: {
     backgroundColor: '#372775',
     padding: 6.25,
     marginLeft: 10,
-  },
-  img: {
-    width: 60,
-    height: 60,
   },
   inputContainer: {
     width: '75%',

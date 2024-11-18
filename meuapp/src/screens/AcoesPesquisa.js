@@ -7,7 +7,7 @@ import {
   TextInput,
   Image,
 } from 'react-native';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const AcoesPesquisa = props => {
     const Coleta = () => {
@@ -25,7 +25,8 @@ const AcoesPesquisa = props => {
         style={styles.button}
         onPress={ModificarPesquisa}>
         
-        <Image style={styles.img} source={require('../img/AcoesPesquisa01.png')} />
+        {/* <Image style={styles.img} source={require('../img/AcoesPesquisa01.png')} /> */}
+        <Icon name="file-document-edit-outline" size={60} color="#FFFFFF" />
         <Text style={styles.text}>Modificar </Text>
       </TouchableOpacity>
 
@@ -33,7 +34,8 @@ const AcoesPesquisa = props => {
         style={styles.button}
         onPress={Coleta}>
            
-        <Image style={styles.img} source={require('../img/AcoesPesquisa02.png')} />
+        {/* <Image style={styles.img} source={require('../img/AcoesPesquisa02.png')} /> */}
+        <Icon name="checkbox-multiple-marked-outline" size={60} color="#FFFFFF" />
         <Text style={styles.text}>Coletar Dados </Text>
       </TouchableOpacity>
 
@@ -43,7 +45,8 @@ const AcoesPesquisa = props => {
          
         }}>
             
-      <Image style={styles.img} source={require('../img/AcoesPesquisa03.png')} />
+      {/* <Image style={styles.img} source={require('../img/AcoesPesquisa03.png')} /> */}
+      <Icon name="chart-arc" size={60} color="#FFFFFF" />
       <Text style={styles.text}>Relatório </Text>
       </TouchableOpacity>
 
