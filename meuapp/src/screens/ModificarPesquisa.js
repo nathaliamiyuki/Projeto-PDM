@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   View,
@@ -9,7 +9,25 @@ import {
   Image,
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Modal from 'react-native-modal';
+import { Alert } from 'react-native';
+
+
 const ModificarPesquisa = props => {
+
+  const[modalVisible, setModalVisible] = useState(false);
+
+  const mostraModal = () => setModalVisible(true);
+
+  const ocultaModal = () => setModalVisible(false);
+
+  const confirmaExclusao = () => {
+    ocultaModal();
+    Alert.alert('Sucesso', 'Pesquisa excluída com sucesso!');
+    props.navigation.goBack();
+  }
+
   const AcoesPesquisa = () => {
     props.navigation.navigate('AcoesPesquisa');
   };
@@ -48,6 +66,31 @@ const ModificarPesquisa = props => {
           SALVAR
         </Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.deleteContainer} onPress={mostraModal}>
+        <Icon name="delete" size={30} color="#FFFFFF" />
+        <Text style={styles.deleteText}>Apagar</Text>
+      </TouchableOpacity>
+
+
+      <Modal
+        isVisible={modalVisible}
+        onBackdropPress={ocultaModal}
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+      >
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalText}>Tem certeza que deseja excluir esta pesquisa?</Text>
+          <View style={styles.modalButtons}>
+            <TouchableOpacity onPress={confirmaExclusao} style={styles.confirmButton}>
+              <Text style={styles.buttonText}>SIM</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={ocultaModal} style={styles.cancelButton}>
+              <Text style={styles.buttonText}>CANCELAR</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -110,6 +153,55 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
+  },
+
+  deleteContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  deleteText: {
+    marginTop: 5,
+    fontSize: 14,
+    color: '#FFFFFF',
+    fontFamily: 'AveriaLibre-Regular',
+  },
+  modalContainer: {
+    backgroundColor: '#2B1F5C',
+    padding: 20,
+    borderRadius: 0,
+    alignItems: 'center',
+    width: '80%',
+    alignSelf: 'center',
+  },
+  modalText: {
+    fontSize: 18,
+    color: '#FFFFFF',
+    textAlign: 'center',
+    marginBottom: 20,
+    fontFamily: 'AveriaLibre-Regular',
+  },
+  
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    gap: 10,
+  },
+  confirmButton: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#FF8383',
+    alignItems: 'center',
+  },
+  cancelButton: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#3F92C5',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontFamily: 'AveriaLibre-Regular',
   },
 });
 
