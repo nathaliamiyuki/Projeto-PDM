@@ -12,6 +12,7 @@ import Coleta from './src/screens/Coleta';
 import AgradecimentoPartic from './src/screens/AgradecimentoPartic';
 import ModificarPesquisa from './src/screens/ModificarPesquisa';
 import Drawer from './src/screens/Drawer';
+import RelatorioPesquisa from './src/screens/RelatorioPesquisa';
 
 const Stack = createStackNavigator();
 
@@ -122,9 +123,26 @@ const App = () => {
               fontSize: 38,
             },
             title: 'Modificar pesquisa', 
+            
           }}
         />
-        
+        <Stack.Screen
+          name="RelatorioPesquisa"
+          component={RelatorioPesquisa}
+          options={{
+            headerStyle: {
+              backgroundColor: '#2B1D62', 
+            },
+            headerTintColor: '#573FBA', 
+            headerTitleStyle: {
+              fontFamily: 'AveriaLibre-Regular',
+              fontWeight: '400', 
+              color: '#FFFFFF',
+              fontSize: 38,
+            },
+            title: 'Relatório', 
+          }}
+        />    
       </Stack.Navigator>
     </NavigationContainer>
   );

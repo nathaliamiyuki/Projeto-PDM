@@ -16,15 +16,17 @@ const AcoesPesquisa = props => {
     const ModificarPesquisa = () => {
         props.navigation.navigate('ModificarPesquisa');
     };
+    const RelatorioPesquisa = () => {
+      props.navigation.navigate('RelatorioPesquisa');
+  };
     
   return (
     <View style={styles.container}>
       
-
       <TouchableOpacity
         style={styles.button}
         onPress={ModificarPesquisa}>
-        
+
         {/* <Image style={styles.img} source={require('../img/AcoesPesquisa01.png')} /> */}
         <Icon name="file-document-edit-outline" size={60} color="#FFFFFF" />
         <Text style={styles.text}>Modificar </Text>
@@ -38,16 +40,15 @@ const AcoesPesquisa = props => {
         <Icon name="checkbox-multiple-marked-outline" size={60} color="#FFFFFF" />
         <Text style={styles.text}>Coletar Dados </Text>
       </TouchableOpacity>
+      
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-         
-        }}>
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={RelatorioPesquisa}>
             
-      {/* <Image style={styles.img} source={require('../img/AcoesPesquisa03.png')} /> */}
-      <Icon name="chart-arc" size={60} color="#FFFFFF" />
-      <Text style={styles.text}>Relatório </Text>
+        {/* <Image style={styles.img} source={require('../img/AcoesPesquisa03.png')} /> */}
+        <Icon name="chart-arc" size={60} color="#FFFFFF" />
+        <Text style={styles.text}>Relatório </Text>
       </TouchableOpacity>
 
     </View>

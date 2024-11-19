@@ -1,14 +1,18 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-  Image,
-} from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const AgradecimentoPartic = () => {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.replace('Coleta');
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
@@ -21,12 +25,10 @@ const AgradecimentoPartic = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
     backgroundColor: '#372775',
   },
-  
   text: {
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 38,
@@ -34,6 +36,7 @@ const styles = StyleSheet.create({
     lineHeight: 76.38,
     textAlign: 'center',
     color: '#FFFFFF',
+    paddingHorizontal: 20,
   },
 });
 
