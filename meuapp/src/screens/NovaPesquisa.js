@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,8 +6,29 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+
 const NovaPesquisa = props => {
+
+  const [name, setName] = useState('');
+  const [date, setDate] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [dateError, setDateError] = useState('');
+
   const AcoesPesquisa = () => {
+   
+    setNameError('');
+    setDateError('');
+
+    if (name.trim() === '') {
+      setNameError('Preencha o nome da pesquisa');
+      return;
+    }
+
+    if (date.trim() === '') {
+      setDateError('Preencha a data');
+      return;
+    }
+
     props.navigation.navigate('AcoesPesquisa');
   };
 
@@ -17,12 +37,33 @@ const NovaPesquisa = props => {
       <View style={styles.container2}>
         <View style={styles.inputContainer}>
           <Text style={styles.email}>Nome</Text>
-          <TextInput style={styles.input} />
+          <TextInput 
+            style={styles.input} 
+            value={name}
+            onChangeText={(text) => {
+              setName(text);
+              setNameError(''); // Clear error when typing
+            }}
+          />
+          {nameError !== '' && (
+            <Text style={styles.errorText}>{nameError}</Text>
+          )}
         </View>
 
         <View style={styles.inputContainer}>
           <Text style={styles.email}>Data</Text>
-          <TextInput style={styles.input} />
+          <TextInput 
+            style={styles.input} 
+            value={date}
+            onChangeText={(text) => {
+              setDate(text);
+              setDateError(''); // Clear error when typing
+            }}
+            placeholder="DD/MM/AAAA"
+          />
+          {dateError !== '' && (
+            <Text style={styles.errorText}>{dateError}</Text>
+          )}
         </View>
 
         <View style={styles.inputContainerImg}>
@@ -60,11 +101,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     color: '#939393',
   },
+
   inputImg: {
     height: 80,
     paddingHorizontal: 10,
     backgroundColor: '#fff',
   },
+  
   email: {
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 16,
@@ -91,9 +134,17 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 55,
   },
+
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
+  },
+
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: 5,
+    fontFamily: 'AveriaLibre-Regular',
   },
 });
 
