@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,17 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Login = props => {
   
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [loginError, setLoginError] = useState('');
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+
   const Registro = () => {
     props.navigation.navigate('Cadastro');
   };
@@ -19,17 +30,30 @@ const Login = props => {
     props.navigation.navigate('RecuperacaoSenha');
   };
   const Home = () => {
+
+    setEmailError('');
+    setLoginError('');
+
+    if (!validateEmail(email)) {
+      setEmailError('E-mail inválido');
+      return;
+    }
+
+    if (email.trim() === '' || password.trim() === '') {
+      setLoginError('E-mail e/ou senha inválidos.');
+      return;
+    }
+
     props.navigation.navigate('HomeWithDrawer');
+
   };
   return (
-    <View style={styles.container}>
+
+      <View style={styles.container}>
       <View style={styles.container_layout}>
         <View style={styles.layout}>
           <Text style={styles.text}>Satisfying.you</Text>
         </View>
-        {/* <View style={styles.container_img}>
-          <Image style={styles.img} source={require('../img/img_01.png')} />
-        </View> */}
         <View style={styles.container_icon}>
           <Icon name="mood" size={60} color="#FFFFFF" />
         </View>
@@ -42,7 +66,16 @@ const Login = props => {
           placeholder="Email?"
           keyboardType="email-address"
           autoCapitalize="none"
+          value={email}
+          onChangeText={(text) => {
+            setEmail(text);
+            setEmailError('');
+            setLoginError('');
+          }}
         />
+        {emailError !== '' && (
+          <Text style={styles.errorText}>{emailError}</Text>
+        )}
       </View>
 
       <View style={styles.inputContainer}>
@@ -52,11 +85,18 @@ const Login = props => {
           placeholder="Senha?"
           secureTextEntry
           autoCapitalize="none"
+          value={password}
+          onChangeText={(text) => {
+            setPassword(text);
+            setLoginError('');
+          }}
         />
+        {loginError !== '' && (
+          <Text style={styles.errorText}>{loginError}</Text>
+        )}
       </View>
 
-      <TouchableOpacity
-        style={styles.button}  onPress={Home}>
+      <TouchableOpacity style={styles.button} onPress={Home}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
 
@@ -66,7 +106,8 @@ const Login = props => {
 
       <TouchableOpacity
         style={styles.outroButton2}
-        onPress={RecuperacaoSenha}>
+        onPress={RecuperacaoSenha}
+      >
         <Text style={styles.buttonText}>Esqueci minha senha</Text>
       </TouchableOpacity>
     </View>
@@ -165,6 +206,12 @@ const styles = StyleSheet.create({
     color: '#1E90FF',
     textAlign: 'center',
     marginTop: 10,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: 5,
+    fontFamily: 'AveriaLibre-Regular',
   },
 });
 
