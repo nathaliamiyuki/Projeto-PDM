@@ -57,7 +57,12 @@ const Home = props => {
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-      <Icon style={styles.searchIcon} name="magnify" size={40} color="#666666"/>
+        <Icon 
+          name="magnify" 
+          size={20} 
+          color="#666666" 
+          style={styles.searchIcon}
+        />
         <TextInput
           style={styles.input}
           placeholder="Insira o termo de busca..."
@@ -100,11 +105,20 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '95%',
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  searchIcon: {
+    position: 'absolute',
+    left: 10,
+    zIndex: 1,
   },
   input: {
     height: 40,
     backgroundColor: '#fff',
-    paddingHorizontal: 10,
+    width: '100%',
+    paddingHorizontal: 35,
     fontSize: 14,
   },
   cardsContainer: {
