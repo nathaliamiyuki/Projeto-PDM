@@ -9,7 +9,9 @@ import {
  
 } from 'react-native';
 
-const Cadastro = () => {
+import Login from './Login';
+
+const Cadastro = (props) => {
  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,29 +20,28 @@ const Cadastro = () => {
   const [passwordError, setPasswordError] = useState('');
 
   const validateEmail = (email) => {
-    // Basic email validation regex
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const handleCadastro = () => {
-    // Reset previous errors
+    
     setEmailError('');
     setPasswordError('');
 
-    // Validate email
     if (!validateEmail(email)) {
       setEmailError('E-mail inválido');
       return;
     }
 
-    // Validate password match
     if (password !== confirmPassword) {
       setPasswordError('O campo repetir senha difere da senha');
       return;
     }
 
-    Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
+    Alert.alert('Sucesso', 'Cadastro realizado com sucesso! Faça seu login :)');
+    props.navigation.navigate('Login');
   };
 
   return (
@@ -50,7 +51,7 @@ const Cadastro = () => {
         <Text style={styles.email}>E-mail</Text>
         <TextInput
           style={styles.input}
-          placeholder="Email?"
+          placeholder="E-mail"
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
@@ -68,13 +69,13 @@ const Cadastro = () => {
         <Text style={styles.email}>Senha</Text>
         <TextInput
           style={styles.input}
-          placeholder="Senha?"
+          placeholder="Senha"
           secureTextEntry
           autoCapitalize="none"
           value={password}
           onChangeText={(text) => {
             setPassword(text);
-            setPasswordError(''); // Clear password error when typing
+            setPasswordError('');
           }}
         />
       </View>
@@ -90,7 +91,7 @@ const Cadastro = () => {
           value={confirmPassword}
           onChangeText={(text) => {
             setConfirmPassword(text);
-            setPasswordError(''); // Clear password error when typing
+            setPasswordError('');
           }}
         />
         {passwordError !== '' && (
@@ -98,9 +99,7 @@ const Cadastro = () => {
         )}
       </View>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleCadastro}>
+      <TouchableOpacity style={styles.button} onPress={handleCadastro}>
         <Text style={styles.buttonText}>CADASTRAR</Text>
       </TouchableOpacity>
       
@@ -133,6 +132,8 @@ const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 10,
     backgroundColor: '#fff',
+    fontFamily: 'AveriaLibre-Regular',
+    color: '#3F92C5',
   },
  
   button: {
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontWeight: 'bold',
+    fontFamily: 'AveriaLibre-Regular',
   },
   
   errorText: {

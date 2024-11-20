@@ -41,7 +41,7 @@ const RecuperacaoSenha = (props) => {
         <Text style={styles.label}>E-mail</Text>
         <TextInput
           style={styles.input}
-          placeholder="Email?"
+          placeholder="E-mail"
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
@@ -64,6 +64,13 @@ const RecuperacaoSenha = (props) => {
   );
 };
 const styles = StyleSheet.create({
+  label: {
+    fontFamily: 'AveriaLibre-Regular',
+    fontSize: 16,
+    color: '#FFFFFF',
+    marginBottom: 5,
+  },
+
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -89,6 +96,8 @@ const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 10,
     backgroundColor: '#fff',
+    fontFamily: 'AveriaLibre-Regular',
+    color: '#3F92C5',
   },
  
   button: {
@@ -106,7 +115,7 @@ const styles = StyleSheet.create({
 
   buttonText: {
     color: '#fff',
-    fontWeight: 'bold',
+    fontFamily: 'AveriaLibre-Regular',
   },
 
   errorText: {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   View,
   Text,
@@ -34,15 +35,15 @@ const NovaPesquisa = props => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.container2}>
+      <View>
         <View style={styles.inputContainer}>
           <Text style={styles.email}>Nome</Text>
-          <TextInput 
+          <TextInput
             style={styles.input} 
             value={name}
             onChangeText={(text) => {
               setName(text);
-              setNameError(''); // Clear error when typing
+              setNameError('');
             }}
           />
           {nameError !== '' && (
@@ -51,19 +52,21 @@ const NovaPesquisa = props => {
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.email}>Data</Text>
-          <TextInput 
-            style={styles.input} 
-            value={date}
-            onChangeText={(text) => {
-              setDate(text);
-              setDateError(''); // Clear error when typing
-            }}
-            placeholder="DD/MM/AAAA"
-          />
-          {dateError !== '' && (
-            <Text style={styles.errorText}>{dateError}</Text>
-          )}
+          <Text style={styles.label}>Data</Text>
+          <View style={styles.inputWithIcon}>
+            <TextInput
+              style={styles.input}
+              value={date}
+              onChangeText={text => {
+                setDate(text);
+                setDateError('');
+              }}
+            />
+            <View style={styles.iconContainer}>
+            <Icon name="calendar-month" size={24} color="#939393" />
+            </View>
+          </View>
+          {dateError !== '' && <Text style={styles.errorText}>{dateError}</Text>}
         </View>
 
         <View style={styles.inputContainerImg}>
@@ -83,6 +86,19 @@ const NovaPesquisa = props => {
 };
 
 const styles = StyleSheet.create({
+  iconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 200,
+  },
+
+  inputWithIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -105,10 +121,19 @@ const styles = StyleSheet.create({
   inputImg: {
     height: 80,
     paddingHorizontal: 10,
+    width: '100%',
     backgroundColor: '#fff',
   },
   
   email: {
+    fontFamily: 'AveriaLibre-Regular',
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#FFFFFF',
+    marginBottom: 5,
+  },
+
+  label: {
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 16,
     fontWeight: '400',

@@ -22,7 +22,6 @@ const Login = props => {
     return emailRegex.test(email);
   };
 
-
   const Registro = () => {
     props.navigation.navigate('Cadastro');
   };
@@ -34,12 +33,7 @@ const Login = props => {
     setEmailError('');
     setLoginError('');
 
-    if (!validateEmail(email)) {
-      setEmailError('E-mail inválido');
-      return;
-    }
-
-    if (email.trim() === '' || password.trim() === '') {
+    if (!validateEmail(email) || email.trim() === '' || password.trim() === '') {
       setLoginError('E-mail e/ou senha inválidos.');
       return;
     }
@@ -63,7 +57,7 @@ const Login = props => {
         <Text style={styles.email}>E-mail</Text>
         <TextInput
           style={styles.input}
-          placeholder="Email?"
+          placeholder="E-mail"
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
@@ -82,7 +76,7 @@ const Login = props => {
         <Text style={styles.email}>Senha</Text>
         <TextInput
           style={styles.input}
-          placeholder="Senha?"
+          placeholder="Senha"
           secureTextEntry
           autoCapitalize="none"
           value={password}
@@ -104,10 +98,7 @@ const Login = props => {
         <Text style={styles.buttonText}>Criar uma conta</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.outroButton2}
-        onPress={RecuperacaoSenha}
-      >
+      <TouchableOpacity style={styles.outroButton2} onPress={RecuperacaoSenha}>
         <Text style={styles.buttonText}>Esqueci minha senha</Text>
       </TouchableOpacity>
     </View>
@@ -160,6 +151,8 @@ const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 10,
     backgroundColor: '#fff',
+    fontFamily: 'AveriaLibre-Regular',
+    color: '#3F92C5',
   },
   outroButton1: {
     fontFamily: 'AveriaLibre-Regular',
@@ -170,7 +163,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#419ED7',
     width: '75%',
     alignItems: 'center',
-
     marginBottom: 15,
   },
 
@@ -200,7 +192,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontWeight: 'bold',
+    fontFamily: 'AveriaLibre-Regular',
   },
   linkText: {
     color: '#1E90FF',
@@ -208,7 +200,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   errorText: {
-    color: 'red',
+    color: '#FD7979',
     fontSize: 12,
     marginTop: 5,
     fontFamily: 'AveriaLibre-Regular',
