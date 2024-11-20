@@ -41,6 +41,7 @@ const Cadastro = () => {
     }
 
     Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
+  };
 
   return (
 
