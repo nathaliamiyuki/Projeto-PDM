@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     width: '100%',
     backgroundColor: '#fff',
+    fontFamily: 'AveriaLibre-Regular',
   },
   
   email: {
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
 
   buttonText: {
     color: '#fff',
-    fontWeight: 'bold',
+    fontFamily: 'AveriaLibre-Regular',
   },
 
   errorText: {
