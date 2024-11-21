@@ -9,8 +9,6 @@ import {
  
 } from 'react-native';
 
-import Login from './Login';
-
 const Cadastro = (props) => {
  
   const [email, setEmail] = useState('');
@@ -154,7 +152,7 @@ const styles = StyleSheet.create({
   },
   
   errorText: {
-    color: 'red',
+    color: '#FD7979',
     fontSize: 12,
     marginTop: 5,
     fontFamily: 'AveriaLibre-Regular',

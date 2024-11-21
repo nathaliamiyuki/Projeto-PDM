@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
 
   errorText: {
-    color: 'red',
+    color: '#FD7979',
     fontSize: 12,
     marginTop: 5,
     fontFamily: 'AveriaLibre-Regular',
