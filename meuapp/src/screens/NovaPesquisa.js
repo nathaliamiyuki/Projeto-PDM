@@ -87,16 +87,17 @@ const NovaPesquisa = props => {
 
 const styles = StyleSheet.create({
   iconContainer: {
-    flexDirection: 'row',
+    flexDirection: 'coloumn',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 200,
   },
 
   inputWithIcon: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     backgroundColor: '#fff',
+    paddingRight: 10,
   },
 
   container: {
