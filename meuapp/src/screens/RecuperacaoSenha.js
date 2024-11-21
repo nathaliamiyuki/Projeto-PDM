@@ -22,8 +22,8 @@ const RecuperacaoSenha = (props) => {
 
     setEmailError('');
 
-    if (!validateEmail(email)) {
-      setEmailError('E-mail parece ser inválido');
+    if (!validateEmail(email) || email.trim() === '') {
+      setEmailError('E-mail inválido ou vazio.');
       return;
     }
 
