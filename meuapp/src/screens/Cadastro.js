@@ -28,8 +28,8 @@ const Cadastro = (props) => {
     setEmailError('');
     setPasswordError('');
 
-    if (!validateEmail(email)) {
-      setEmailError('E-mail inválido');
+    if (!validateEmail(email) || email.trim() === '' || password.trim() === '') {
+      setEmailError('E-mail inválido ou vazio.');
       return;
     }
 
