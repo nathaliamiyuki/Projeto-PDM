@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,19 +7,18 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-
-const RecuperacaoSenha = (props) => {
+import {sendPasswordResetEmail} from 'firebase/auth';
+import {auth_mod} from '../firebase/config';
+const RecuperacaoSenha = props => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
 
-  const validateEmail = (email) => {
-  
+  const validateEmail = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const handleRecuperacaoSenha = () => {
-
     setEmailError('');
 
     if (!validateEmail(email) || email.trim() === '') {
@@ -27,12 +26,26 @@ const RecuperacaoSenha = (props) => {
       return;
     }
 
-    Alert.alert(
-      'Recuperação de Senha', 
-      'Um link para redefinição de senha foi enviado para o seu e-mail.'
-    );
-
-    props.navigation.navigate('Login');
+    sendPasswordResetEmail(auth_mod, email)
+      .then(userRecover => {
+        console.log(
+          `Link para recuperação de senha enviado com sucesso ${JSON.stringify(
+            userRecover,
+          )}`,
+        );
+        Alert.alert(
+          'Recuperação de Senha',
+          'Um link para redefinição de senha foi enviado para o seu e-mail.',
+        );
+        props.navigation.navigate('Login');
+      })
+      .catch(error => {
+        console.log(
+          `Ocorreu um erro ao enviar o email para redefinição de senha ${JSON.stringify(
+            error,
+          )}`,
+        );
+      });
   };
 
   return (
@@ -45,7 +58,7 @@ const RecuperacaoSenha = (props) => {
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
-          onChangeText={(text) => {
+          onChangeText={text => {
             setEmail(text);
             setEmailError('');
           }}
@@ -55,9 +68,7 @@ const RecuperacaoSenha = (props) => {
         )}
       </View>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleRecuperacaoSenha}>
+      <TouchableOpacity style={styles.button} onPress={handleRecuperacaoSenha}>
         <Text style={styles.buttonText}>RECUPERAR</Text>
       </TouchableOpacity>
     </View>
@@ -99,7 +110,7 @@ const styles = StyleSheet.create({
     fontFamily: 'AveriaLibre-Regular',
     color: '#3F92C5',
   },
- 
+
   button: {
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 36,

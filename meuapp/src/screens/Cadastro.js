@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,29 +6,31 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
- 
 } from 'react-native';
+import {auth_mod} from '../firebase/config';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
 
-const Cadastro = (props) => {
- 
+const Cadastro = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-  const validateEmail = (email) => {
-    
+  const validateEmail = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const handleCadastro = () => {
-    
     setEmailError('');
     setPasswordError('');
 
-    if (!validateEmail(email) || email.trim() === '' || password.trim() === '') {
+    if (
+      !validateEmail(email) ||
+      email.trim() === '' ||
+      password.trim() === ''
+    ) {
       setEmailError('E-mail inválido ou vazio.');
       return;
     }
@@ -37,13 +39,21 @@ const Cadastro = (props) => {
       setPasswordError('O campo repetir senha difere da senha');
       return;
     }
-
-    Alert.alert('Sucesso', 'Cadastro realizado com sucesso! Faça seu login :)');
-    props.navigation.navigate('Login');
+    createUserWithEmailAndPassword(auth_mod, email, password)
+      .then(userRegister => {
+        console.log(`Usuário foi criado com sucesso${userRegister}`);
+        Alert.alert(
+          'Sucesso',
+          'Cadastro realizado com sucesso! Faça seu login :)',
+        );
+        props.navigation.navigate('Login');
+      })
+      .catch(error => {
+        console.log(`Ocorreu um erro ao criar usuario ${error}`);
+      });
   };
 
   return (
-
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <Text style={styles.email}>E-mail</Text>
@@ -53,7 +63,7 @@ const Cadastro = (props) => {
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
-          onChangeText={(text) => {
+          onChangeText={text => {
             setEmail(text);
             setEmailError('');
           }}
@@ -71,14 +81,13 @@ const Cadastro = (props) => {
           secureTextEntry
           autoCapitalize="none"
           value={password}
-          onChangeText={(text) => {
+          onChangeText={text => {
             setPassword(text);
             setPasswordError('');
           }}
         />
       </View>
 
-      
       <View style={styles.inputContainer}>
         <Text style={styles.email}>Repetir Senha</Text>
         <TextInput
@@ -87,7 +96,7 @@ const Cadastro = (props) => {
           secureTextEntry
           autoCapitalize="none"
           value={confirmPassword}
-          onChangeText={(text) => {
+          onChangeText={text => {
             setConfirmPassword(text);
             setPasswordError('');
           }}
@@ -97,10 +106,13 @@ const Cadastro = (props) => {
         )}
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleCadastro}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          handleCadastro();
+        }}>
         <Text style={styles.buttonText}>CADASTRAR</Text>
       </TouchableOpacity>
-      
     </View>
   );
 };
@@ -113,7 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#372775',
     padding: 20,
   },
-  
+
   inputContainer: {
     width: '75%',
     marginBottom: 15,
@@ -133,7 +145,7 @@ const styles = StyleSheet.create({
     fontFamily: 'AveriaLibre-Regular',
     color: '#3F92C5',
   },
- 
+
   button: {
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 36,
@@ -150,7 +162,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'AveriaLibre-Regular',
   },
-  
+
   errorText: {
     color: '#FD7979',
     fontSize: 12,

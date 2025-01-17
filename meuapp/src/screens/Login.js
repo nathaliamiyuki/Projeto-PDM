@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
-  View,
-  Text,
   StyleSheet,
-  TouchableOpacity,
+  Text,
   TextInput,
+  TouchableOpacity,
+  View,
+  Alert,
 } from 'react-native';
 
+import {signInWithEmailAndPassword} from 'firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import {auth_mod} from '../firebase/config';
 const Login = props => {
-  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const validateEmail = (email) => {
+  const validateEmail = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
@@ -28,21 +29,33 @@ const Login = props => {
     props.navigation.navigate('RecuperacaoSenha');
   };
   const Home = () => {
-
     setEmailError('');
     setLoginError('');
 
-    if (!validateEmail(email) || email.trim() === '' || password.trim() === '') {
+    if (
+      !validateEmail(email) ||
+      email.trim() === '' ||
+      password.trim() === ''
+    ) {
       setLoginError('E-mail e/ou senha inválidos.');
       return;
     }
-
-    props.navigation.navigate('HomeWithDrawer');
-
+    signInWithEmailAndPassword(auth_mod, email, password)
+      .then(userLogin => {
+        console.log(
+          `Usuário fez login corretamente ${JSON.stringify(userLogin)}`,
+        );
+        props.navigation.navigate('HomeWithDrawer');
+      })
+      .catch(error => {
+        Alert.alert('Ocorreu um erro ao autenticar o usuario :/.');
+        console.log(
+          `Ocorreu um erro ao autenticar o usuario ${JSON.stringify(error)}`,
+        );
+      });
   };
   return (
-
-      <View style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.container_layout}>
         <View style={styles.layout}>
           <Text style={styles.text}>Satisfying.you</Text>
@@ -60,7 +73,7 @@ const Login = props => {
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
-          onChangeText={(text) => {
+          onChangeText={text => {
             setEmail(text);
             setEmailError('');
             setLoginError('');
@@ -79,7 +92,7 @@ const Login = props => {
           secureTextEntry
           autoCapitalize="none"
           value={password}
-          onChangeText={(text) => {
+          onChangeText={text => {
             setPassword(text);
             setLoginError('');
           }}

@@ -14,6 +14,7 @@ import ModificarPesquisa from './src/screens/ModificarPesquisa';
 import Drawer from './src/screens/Drawer';
 import RelatorioPesquisa from './src/screens/RelatorioPesquisa';
 
+
 const Stack = createStackNavigator();
 
 const App = () => {
