@@ -1,33 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  ScrollView,
+  Dimensions,
+  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Card = ({ iconName, title, date, onPress }) => {
+const Card = ({ iconName, title, date, onPress, isPortrait, imageUri }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.card}>
-      <Icon 
-        name={iconName} 
-        size={128} 
-        color="#3F92C5"
-      />
-      <Text style={styles.cardTitle}>{title}</Text>
-      <Text style={styles.cardDate}>{date}</Text>
+      {imageUri ? (
+        <Image source={{ uri: imageUri }} style={styles.cardImage} resizeMode="cover" />
+      ) : (
+        <Icon 
+          name={iconName} 
+          size={isPortrait ? 128 : 64}
+          color="#3F92C5"
+        />
+      )}
+      <Text style={[styles.cardTitle, { fontSize: isPortrait ? 36 : 18 }]}>{title}</Text>
+      <Text style={[styles.cardDate, { fontSize: isPortrait ? 18 : 9 }]}>{date}</Text>
     </TouchableOpacity>
   );
 };
 
-const Home = props => {
-  const NovaPesquisa = () => {
-    props.navigation.navigate('NovaPesquisa');
-  };
-
-  const cardData = [
+const Home = ({ navigation, route }) => {
+  const [isPortrait, setIsPortrait] = useState(true);
+  const [cardData, setCardData] = useState([
     {
       id: 1,
       iconName: 'folder-outline',
@@ -46,13 +50,31 @@ const Home = props => {
       title: 'MENINAS CPU',
       date: '01/04/2022',
     },
-    {
-      id: 4,
-      iconName: 'account-outline',
-      title: 'TESTE',
-      date: '01/04/2022',
-    },
-  ];
+  ]);
+
+  useEffect(() => {
+    if (route.params?.newCard) {
+      setCardData([...cardData, route.params.newCard]);
+    }
+  }, [route.params?.newCard]);
+
+  const handleOrientationChange = () => {
+    const { width, height } = Dimensions.get('window');
+    setIsPortrait(height >= width);
+  };
+
+  useEffect(() => {
+    Dimensions.addEventListener('change', handleOrientationChange);
+    handleOrientationChange(); 
+
+    return () => {
+      Dimensions.removeEventListener('change', handleOrientationChange);
+    };
+  }, []);
+
+  const NovaPesquisa = () => {
+    navigation.navigate('NovaPesquisa');
+  };
 
   return (
     <View style={styles.container}>
@@ -70,7 +92,12 @@ const Home = props => {
         />
       </View>
 
-      <View style={styles.cardsContainer}>
+      <ScrollView 
+        horizontal 
+        style={styles.scrollView}
+        contentContainerStyle={styles.cardsContainer}
+        showsHorizontalScrollIndicator={false}
+      >
         {cardData.map((card) => (
           <Card
             key={card.id}
@@ -78,11 +105,13 @@ const Home = props => {
             title={card.title}
             date={card.date}
             onPress={() => {
-              //props.navigation.navigate('AcoesPesquisa', { title: card.title });
+              //navigation.navigate('AcoesPesquisa', { title: card.title });
             }}
+            isPortrait={isPortrait}
+            imageUri={card.imageUri}
           />
         ))}
-      </View>
+      </ScrollView>
 
       <TouchableOpacity
         style={styles.button}
@@ -100,7 +129,7 @@ const styles = StyleSheet.create({
     padding: 16,
     height: '100%',
     justifyContent: 'space-between',
-    gap : 10,
+    gap: 10,
     alignItems: 'center',
   },
   inputContainer: {
@@ -121,13 +150,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 35,
     fontSize: 14,
   },
+  scrollView: {
+    width: '95%',
+  },
   cardsContainer: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    gap: 49,
-    width: '95%',
+    gap: 20,
+    paddingVertical: 10,
   },
   card: {
     backgroundColor: '#FFFFFF',
@@ -136,8 +167,13 @@ const styles = StyleSheet.create({
     height: 240,
     alignItems: 'center',
     justifyContent: 'center',
-    margin : 0,
+    margin: 0,
     elevation: 3,
+  },
+  cardImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 8,
   },
   cardTitle: {
     fontSize: 36,
