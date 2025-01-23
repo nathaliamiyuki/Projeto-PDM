@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,16 +8,17 @@ import {
   Alert,
 } from 'react-native';
 
-import {signInWithEmailAndPassword} from 'firebase/auth';
+// import { signInWithEmailAndPassword } from 'firebase/auth'; // Commented out
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {auth_mod} from '../firebase/config';
-const Login = props => {
+// import { auth_mod } from '../firebase/config'; // Commented out
+
+const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const validateEmail = email => {
+  const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
@@ -25,35 +26,35 @@ const Login = props => {
   const Registro = () => {
     props.navigation.navigate('Cadastro');
   };
+
   const RecuperacaoSenha = () => {
     props.navigation.navigate('RecuperacaoSenha');
   };
+
   const Home = () => {
     setEmailError('');
     setLoginError('');
 
-    if (
-      !validateEmail(email) ||
-      email.trim() === '' ||
-      password.trim() === ''
-    ) {
+    if (!validateEmail(email) || email.trim() === '' || password.trim() === '') {
       setLoginError('E-mail e/ou senha inválidos.');
       return;
     }
-    signInWithEmailAndPassword(auth_mod, email, password)
-      .then(userLogin => {
-        console.log(
-          `Usuário fez login corretamente ${JSON.stringify(userLogin)}`,
-        );
-        props.navigation.navigate('HomeWithDrawer');
-      })
-      .catch(error => {
-        Alert.alert('Ocorreu um erro ao autenticar o usuario :/.');
-        console.log(
-          `Ocorreu um erro ao autenticar o usuario ${JSON.stringify(error)}`,
-        );
-      });
+
+    // Temporarily bypass authentication
+    // signInWithEmailAndPassword(auth_mod, email, password)
+    //   .then((userLogin) => {
+    //     console.log(`Usuário fez login corretamente ${JSON.stringify(userLogin)}`);
+    //     props.navigation.navigate('HomeWithDrawer');
+    //   })
+    //   .catch((error) => {
+    //     Alert.alert('Ocorreu um erro ao autenticar o usuario :/.');
+    //     console.log(`Ocorreu um erro ao autenticar o usuario ${JSON.stringify(error)}`);
+    //   });
+
+    // Directly navigate to HomeWithDrawer for now
+    props.navigation.navigate('HomeWithDrawer');
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.container_layout}>
@@ -73,15 +74,13 @@ const Login = props => {
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
-          onChangeText={text => {
+          onChangeText={(text) => {
             setEmail(text);
             setEmailError('');
             setLoginError('');
           }}
         />
-        {emailError !== '' && (
-          <Text style={styles.errorText}>{emailError}</Text>
-        )}
+        {emailError !== '' && <Text style={styles.errorText}>{emailError}</Text>}
       </View>
 
       <View style={styles.inputContainer}>
@@ -92,14 +91,12 @@ const Login = props => {
           secureTextEntry
           autoCapitalize="none"
           value={password}
-          onChangeText={text => {
+          onChangeText={(text) => {
             setPassword(text);
             setLoginError('');
           }}
         />
-        {loginError !== '' && (
-          <Text style={styles.errorText}>{loginError}</Text>
-        )}
+        {loginError !== '' && <Text style={styles.errorText}>{loginError}</Text>}
       </View>
 
       <TouchableOpacity style={styles.button} onPress={Home}>
@@ -158,7 +155,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginBottom: 5,
   },
-
   input: {
     height: 40,
     paddingHorizontal: 10,
@@ -177,7 +173,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15,
   },
-
   outroButton2: {
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 36,
@@ -187,7 +182,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#B0CCDE',
     width: '75%',
     alignItems: 'center',
-
     marginBottom: 25,
   },
   button: {

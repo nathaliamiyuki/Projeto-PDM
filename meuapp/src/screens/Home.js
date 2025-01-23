@@ -12,14 +12,20 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Card = ({ iconName, title, date, onPress, isPortrait, imageUri }) => {
+  const iconSize = isPortrait ? 128 : 64;
+
   return (
     <TouchableOpacity onPress={onPress} style={styles.card}>
       {imageUri ? (
-        <Image source={{ uri: imageUri }} style={styles.cardImage} resizeMode="cover" />
+        <Image 
+          source={{ uri: imageUri }} 
+          style={{ width: iconSize, height: iconSize, borderRadius: 8 }} 
+          resizeMode="cover" 
+        />
       ) : (
         <Icon 
           name={iconName} 
-          size={isPortrait ? 128 : 64}
+          size={iconSize}
           color="#3F92C5"
         />
       )}
@@ -171,8 +177,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   cardImage: {
-    width: '100%',
-    height: '100%',
+    width: 128,
+    height: 128,
     borderRadius: 8,
   },
   cardTitle: {

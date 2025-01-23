@@ -13,6 +13,7 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
+import ImageResizer from 'react-native-image-resizer';
 
 const NovaPesquisa = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -56,25 +57,63 @@ const NovaPesquisa = ({ navigation }) => {
   };
 
   const selectImage = () => {
-    launchImageLibrary({}, response => {
+    launchImageLibrary({}, async (response) => {
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        console.log('Usuário cancelou a seleção de imagem');
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else if (response.assets && response.assets.length > 0) {
-        setImageUri(response.assets[0].uri);
+        const uri = response.assets[0].uri;
+        try {
+          const resizedImage = await ImageResizer.createResizedImage(
+            uri,
+            128,
+            128, 
+            'JPEG',
+            100, 
+            0, 
+            null,
+          );
+  
+          const fileName = `${name.replace(/ /g, '_')}_${Date.now()}.jpg`;
+          const destPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+          await RNFS.copyFile(resizedImage.uri, destPath);
+
+          setImageUri(`file://${destPath}`);
+        } catch (err) {
+          console.log('Image resizing or saving failed: ', err);
+        }
       }
     });
   };
-
+  
   const takePicture = () => {
-    launchCamera({}, response => {
+    launchCamera({}, async (response) => {
       if (response.didCancel) {
-        console.log('User cancelled camera');
+        console.log('Usuário cancelou a captura com câmera');
       } else if (response.error) {
         console.log('Camera Error: ', response.error);
       } else if (response.assets && response.assets.length > 0) {
-        setImageUri(response.assets[0].uri);
+        const uri = response.assets[0].uri;
+        try {
+          const resizedImage = await ImageResizer.createResizedImage(
+            uri,
+            128,
+            128, 
+            'JPEG',
+            100, 
+            0, 
+            null,
+          );
+
+          const fileName = `${name.replace(/ /g, '_')}_${Date.now()}.jpg`;
+          const destPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+          await RNFS.copyFile(resizedImage.uri, destPath);
+  
+          setImageUri(`file://${destPath}`);
+        } catch (err) {
+          console.log('Image resizing or saving failed: ', err);
+        }
       }
     });
   };
