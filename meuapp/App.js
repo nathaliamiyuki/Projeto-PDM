@@ -90,19 +90,19 @@ const App = () => {
         <Stack.Screen
           name="AcoesPesquisa"
           component={AcoesPesquisa}
-          options={{
+          options={({ route }) => ({
             headerStyle: {
               backgroundColor: '#2B1D62',
             },
-            headerTintColor: '#573FBA', 
+            headerTintColor: '#573FBA',
             headerTitleStyle: {
               fontFamily: 'AveriaLibre-Regular',
               fontWeight: '400',
               color: '#FFFFFF',
               fontSize: 38,
             },
-            title: 'Carnaval', 
-          }}
+            title: route.params?.card?.title || 'Ações',
+          })}
         />
         <Stack.Screen
           name="AgradecimentoPartic"

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   View,
   Text,
@@ -8,71 +7,117 @@ import {
   TextInput,
   Image,
 } from 'react-native';
-
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import { Alert } from 'react-native';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
+const ModificarPesquisa = ({ navigation, route }) => {
+  const { card } = route.params;
 
-const ModificarPesquisa = props => {
-
-  const[modalVisible, setModalVisible] = useState(false);
+  const [name, setName] = useState(card.title);
+  const [date, setDate] = useState(card.date);
+  const [imageUri, setImageUri] = useState(card.imageUri);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const mostraModal = () => setModalVisible(true);
-
   const ocultaModal = () => setModalVisible(false);
 
   const confirmaExclusao = () => {
     ocultaModal();
     Alert.alert('Sucesso', 'Pesquisa excluída com sucesso!');
-    props.navigation.goBack();
-  }
+    navigation.goBack();
+  };
 
-  const AcoesPesquisa = () => {
-    props.navigation.navigate('AcoesPesquisa');
+  const handleImagePicker = () => {
+    Alert.alert(
+      'Selecionar Imagem',
+      'Escolha uma opção',
+      [
+        { text: 'Escolher da Galeria', onPress: selectImage },
+        { text: 'Tirar Foto', onPress: takePicture },
+        { text: 'Cancelar', style: 'cancel' },
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const selectImage = () => {
+    launchImageLibrary({}, (response) => {
+      if (response.didCancel) {
+        console.log('Usuário cancelou a seleção de imagem');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.assets && response.assets.length > 0) {
+        setImageUri(response.assets[0].uri);
+      }
+    });
+  };
+
+  const takePicture = () => {
+    launchCamera({}, (response) => {
+      if (response.didCancel) {
+        console.log('Usuário cancelou a captura com câmera');
+      } else if (response.error) {
+        console.log('Camera Error: ', response.error);
+      } else if (response.assets && response.assets.length > 0) {
+        setImageUri(response.assets[0].uri);
+      }
+    });
+  };
+
+  const saveChanges = () => {
+    const updatedCard = {
+      ...card,
+      title: name,
+      date: date,
+      imageUri: imageUri,
+    };
+
+    navigation.navigate('HomeWithDrawer', { screen: 'Home', params: { updatedCard } });
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.container2}>
         <View style={styles.inputContainer}>
-          <Text style={styles.email} placeholder="Carnaval 2024">
-            Nome
-          </Text>
-          <TextInput style={styles.input} />
+          <Text style={styles.email}>Nome</Text>
+          <TextInput
+            style={styles.input}
+            value={name}
+            onChangeText={setName}
+          />
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.email} placeholder="16/02/2024">
-            Data
-          </Text>
-          <TextInput style={styles.input} />
+          <Text style={styles.email}>Data</Text>
+          <TextInput
+            style={styles.input}
+            value={date}
+            onChangeText={setDate}
+          />
         </View>
 
         <View style={styles.inputContainerImg}>
           <Text style={styles.email}>Imagem</Text>
-          
-          <View style={styles.inputIcon}>
-            {/* <Image
-              style={styles.img}
-              source={require('../img/ModificarPesquisa01.png')}
-            /> */}
-            <Icon name="party-popper" size={60} color="pink" />
-          </View>
+          <TouchableOpacity style={styles.inputIcon} onPress={handleImagePicker}>
+            {imageUri ? (
+              <Image source={{ uri: imageUri }} style={styles.img} resizeMode="cover" />
+            ) : (
+              <Icon name="party-popper" size={60} color="pink" />
+            )}
+          </TouchableOpacity>
         </View>
       </View>
 
-      <TouchableOpacity style={styles.button}  onPress={AcoesPesquisa}> 
-        <Text style={styles.buttonText}>
-          SALVAR
-        </Text>
+      <TouchableOpacity style={styles.button} onPress={saveChanges}>
+        <Text style={styles.buttonText}>SALVAR</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.deleteContainer} onPress={mostraModal}>
         <Icon name="delete-outline" size={30} color="#FFFFFF" />
         <Text style={styles.deleteText}>Apagar</Text>
       </TouchableOpacity>
-
 
       <Modal
         isVisible={modalVisible}
@@ -117,9 +162,8 @@ const styles = StyleSheet.create({
   inputIcon: {
     height: 80,
     alignItems: 'center',
-    justifyContent:'center',
+    justifyContent: 'center',
     backgroundColor: '#fff',
-
   },
   email: {
     fontFamily: 'AveriaLibre-Regular',
@@ -128,13 +172,11 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginBottom: 5,
   },
-
   input: {
     height: 40,
     paddingHorizontal: 10,
     backgroundColor: '#fff',
   },
-
   button: {
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 36,
@@ -151,7 +193,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
-
   deleteContainer: {
     alignItems: 'center',
     marginTop: 20,
@@ -177,7 +218,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontFamily: 'AveriaLibre-Regular',
   },
-  
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -196,9 +236,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#3F92C5',
     alignItems: 'center',
   },
-  buttonText: {
-    color: '#FFFFFF',
-    fontFamily: 'AveriaLibre-Regular',
+  img: {
+    width: '100%',
+    height: '100%',
   },
 });
 

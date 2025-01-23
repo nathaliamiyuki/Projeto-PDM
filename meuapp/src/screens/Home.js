@@ -60,9 +60,17 @@ const Home = ({ navigation, route }) => {
 
   useEffect(() => {
     if (route.params?.newCard) {
-      setCardData([...cardData, route.params.newCard]);
+      setCardData((prevCards) => [...prevCards, route.params.newCard]);
     }
-  }, [route.params?.newCard]);
+  
+    if (route.params?.updatedCard) {
+      setCardData((prevCards) =>
+        prevCards.map((card) =>
+          card.id === route.params.updatedCard.id ? route.params.updatedCard : card
+        )
+      );
+    }
+  }, [route.params?.newCard, route.params?.updatedCard]);
 
   const handleOrientationChange = () => {
     const { width, height } = Dimensions.get('window');
@@ -111,7 +119,7 @@ const Home = ({ navigation, route }) => {
             title={card.title}
             date={card.date}
             onPress={() => {
-              //navigation.navigate('AcoesPesquisa', { title: card.title });
+              navigation.navigate('AcoesPesquisa', { card }); 
             }}
             isPortrait={isPortrait}
             imageUri={card.imageUri}
