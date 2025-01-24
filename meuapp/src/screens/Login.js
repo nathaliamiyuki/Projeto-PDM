@@ -40,19 +40,15 @@ const Login = (props) => {
       return;
     }
 
-    // Temporarily bypass authentication
-    // signInWithEmailAndPassword(auth_mod, email, password)
-    //   .then((userLogin) => {
-    //     console.log(`Usuário fez login corretamente ${JSON.stringify(userLogin)}`);
-    //     props.navigation.navigate('HomeWithDrawer');
-    //   })
-    //   .catch((error) => {
-    //     Alert.alert('Ocorreu um erro ao autenticar o usuario :/.');
-    //     console.log(`Ocorreu um erro ao autenticar o usuario ${JSON.stringify(error)}`);
-    //   });
-
-    // Directly navigate to HomeWithDrawer for now
-    props.navigation.navigate('HomeWithDrawer');
+    signInWithEmailAndPassword(auth_mod, email, password)
+       .then((userLogin) => {
+         console.log(`Usuário fez login corretamente ${JSON.stringify(userLogin)}`);
+         props.navigation.navigate('HomeWithDrawer');
+        })
+       .catch((error) => {
+         Alert.alert('Ocorreu um erro ao autenticar o usuario :/.');
+         console.log(`Ocorreu um erro ao autenticar o usuario ${JSON.stringify(error)}`);
+       });
   };
 
   return (
