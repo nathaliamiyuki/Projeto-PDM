@@ -10,6 +10,8 @@ import {
   Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import app from '../firebase/config';
 
 const Card = ({ iconName, title, date, onPress, isPortrait, imageUri }) => {
   const iconSize = isPortrait ? 128 : 64;
@@ -37,32 +39,25 @@ const Card = ({ iconName, title, date, onPress, isPortrait, imageUri }) => {
 
 const Home = ({ navigation, route }) => {
   const [isPortrait, setIsPortrait] = useState(true);
-  const [cardData, setCardData] = useState([
-    {
-      id: 1,
-      iconName: 'folder-outline',
-      title: 'SECOMP 2023',
-      date: '10/10/2023',
-    },
-    {
-      id: 2,
-      iconName: 'account-group-outline',
-      title: 'UBUNTU 2022',
-      date: '05/06/2022',
-    },
-    {
-      id: 3,
-      iconName: 'account-outline',
-      title: 'MENINAS CPU',
-      date: '01/04/2022',
-    },
-  ]);
+  const [cardData, setCardData] = useState([]);
+
+  useEffect(() => {
+    const fetchCards = async () => {
+      const db = getFirestore(app);
+      const cardCollection = collection(db, 'cards');
+      const cardSnapshot = await getDocs(cardCollection);
+      const cards = cardSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setCardData(cards);
+    };
+
+    fetchCards();
+  }, []);
 
   useEffect(() => {
     if (route.params?.newCard) {
       setCardData((prevCards) => [...prevCards, route.params.newCard]);
     }
-  
+
     if (route.params?.updatedCard) {
       setCardData((prevCards) =>
         prevCards.map((card) =>
@@ -79,7 +74,7 @@ const Home = ({ navigation, route }) => {
 
   useEffect(() => {
     Dimensions.addEventListener('change', handleOrientationChange);
-    handleOrientationChange(); 
+    handleOrientationChange();
 
     return () => {
       Dimensions.removeEventListener('change', handleOrientationChange);
@@ -115,11 +110,11 @@ const Home = ({ navigation, route }) => {
         {cardData.map((card) => (
           <Card
             key={card.id}
-            iconName={card.iconName}
-            title={card.title}
+            iconName={card.imageUri ? 'image-outline' : 'folder-outline'}
+            title={card.name}
             date={card.date}
             onPress={() => {
-              navigation.navigate('AcoesPesquisa', { card }); 
+              navigation.navigate('AcoesPesquisa', { card });
             }}
             isPortrait={isPortrait}
             imageUri={card.imageUri}

@@ -12,21 +12,23 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import RNFS from 'react-native-fs';
 import ImageResizer from 'react-native-image-resizer';
+
+import app from '../firebase/config';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
 const NovaPesquisa = ({ navigation }) => {
   const [name, setName] = useState('');
   const [date, setDate] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [imageUri, setImageUri] = useState(null);
   const [nameError, setNameError] = useState('');
   const [dateError, setDateError] = useState('');
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [imageUri, setImageUri] = useState('');
+
+  const db = getFirestore(app);
+  const cardCollection = collection(db, 'cards');
 
   const AcoesPesquisa = async () => {
-    setNameError('');
-    setDateError('');
-
     if (name.trim() === '') {
       setNameError('Preencha o nome da pesquisa');
       return;
@@ -37,23 +39,20 @@ const NovaPesquisa = ({ navigation }) => {
       return;
     }
 
-    let localImageUri = imageUri;
-    if (imageUri) {
-      const fileName = `${name.replace(/ /g, '_')}_${Date.now()}.jpg`;
-      const destPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
-      await RNFS.copyFile(imageUri, destPath);
-      localImageUri = `file://${destPath}`;
-    }
-
     const newCard = {
-      id: Date.now(),
-      iconName: 'image-outline',
-      title: name,
+      name: name,
       date: date.toLocaleDateString(),
-      imageUri: localImageUri,
+      imageUri: imageUri,
     };
 
-    navigation.navigate('HomeWithDrawer', { screen: 'Home', params: { newCard } });
+    try {
+      const docRef = await addDoc(cardCollection, newCard);
+      console.log('Novo documento inserido com sucesso: ', docRef.id);
+
+      navigation.navigate('HomeWithDrawer', { screen: 'Home', params: { newCard: { ...newCard, id: docRef.id } } });
+    } catch (error) {
+      console.error('Erro ao adicionar documento: ', error);
+    }
   };
 
   const selectImage = () => {
@@ -68,25 +67,21 @@ const NovaPesquisa = ({ navigation }) => {
           const resizedImage = await ImageResizer.createResizedImage(
             uri,
             128,
-            128, 
+            128,
             'JPEG',
-            100, 
-            0, 
+            100,
+            0,
             null,
           );
-  
-          const fileName = `${name.replace(/ /g, '_')}_${Date.now()}.jpg`;
-          const destPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
-          await RNFS.copyFile(resizedImage.uri, destPath);
 
-          setImageUri(`file://${destPath}`);
+          setImageUri(resizedImage.uri);
         } catch (err) {
           console.log('Image resizing or saving failed: ', err);
         }
       }
     });
   };
-  
+
   const takePicture = () => {
     launchCamera({}, async (response) => {
       if (response.didCancel) {
@@ -99,18 +94,14 @@ const NovaPesquisa = ({ navigation }) => {
           const resizedImage = await ImageResizer.createResizedImage(
             uri,
             128,
-            128, 
+            128,
             'JPEG',
-            100, 
-            0, 
+            100,
+            0,
             null,
           );
 
-          const fileName = `${name.replace(/ /g, '_')}_${Date.now()}.jpg`;
-          const destPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
-          await RNFS.copyFile(resizedImage.uri, destPath);
-  
-          setImageUri(`file://${destPath}`);
+          setImageUri(resizedImage.uri);
         } catch (err) {
           console.log('Image resizing or saving failed: ', err);
         }

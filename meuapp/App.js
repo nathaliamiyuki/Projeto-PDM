@@ -101,7 +101,7 @@ const App = () => {
               color: '#FFFFFF',
               fontSize: 38,
             },
-            title: route.params?.card?.title || 'Ações',
+            title: route.params?.card?.title || route.params?.card?.name || 'Ações',
           })}
         />
         <Stack.Screen

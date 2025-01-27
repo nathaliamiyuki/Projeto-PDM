@@ -11,22 +11,31 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import { Alert } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { getFirestore, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import app from '../firebase/config';
 
 const ModificarPesquisa = ({ navigation, route }) => {
   const { card } = route.params;
 
-  const [name, setName] = useState(card.title);
+  const [name, setName] = useState(card.name || card.title);
   const [date, setDate] = useState(card.date);
   const [imageUri, setImageUri] = useState(card.imageUri);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const db = getFirestore(app);
+
   const mostraModal = () => setModalVisible(true);
   const ocultaModal = () => setModalVisible(false);
 
-  const confirmaExclusao = () => {
-    ocultaModal();
-    Alert.alert('Sucesso', 'Pesquisa excluída com sucesso!');
-    navigation.goBack();
+  const confirmaExclusao = async () => {
+    try {
+      await deleteDoc(doc(db, 'cards', card.id));
+      Alert.alert('Sucesso', 'Pesquisa excluída com sucesso!');
+      navigation.navigate('HomeWithDrawer', { screen: 'Home' });
+    } catch (error) {
+      console.error('Erro ao excluir documento: ', error);
+      Alert.alert('Erro', 'Não foi possível excluir a pesquisa.');
+    }
   };
 
   const handleImagePicker = () => {
@@ -66,15 +75,22 @@ const ModificarPesquisa = ({ navigation, route }) => {
     });
   };
 
-  const saveChanges = () => {
-    const updatedCard = {
-      ...card,
-      title: name,
-      date: date,
-      imageUri: imageUri,
-    };
+  const saveChanges = async () => {
+    try {
+      const updatedCard = {
+        name: name,
+        date: date,
+        imageUri: imageUri,
+      };
 
-    navigation.navigate('HomeWithDrawer', { screen: 'Home', params: { updatedCard } });
+      await updateDoc(doc(db, 'cards', card.id), updatedCard);
+
+      Alert.alert('Sucesso', 'Pesquisa atualizada com sucesso!');
+      navigation.navigate('HomeWithDrawer', { screen: 'Home', params: { updatedCard: { ...updatedCard, id: card.id } } });
+    } catch (error) {
+      console.error('Erro ao atualizar documento: ', error);
+      Alert.alert('Erro', 'Não foi possível atualizar a pesquisa.');
+    }
   };
 
   return (
