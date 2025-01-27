@@ -8,9 +8,9 @@ import {
   Alert,
 } from 'react-native';
 
-// import { signInWithEmailAndPassword } from 'firebase/auth'; // Commented out
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-// import { auth_mod } from '../firebase/config'; // Commented out
+import { auth_mod } from '../firebase/config';
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
