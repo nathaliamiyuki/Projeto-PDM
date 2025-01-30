@@ -1,37 +1,29 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { PieChart } from 'react-native-chart-kit';
+import { PieChart } from 'react-native-svg-charts';
 
 const RelatorioPesquisa = () => {
   const data = [
-    { name: 'Excelente', population: 40, color: '#FFD966', legendFontColor: '#FFFFFF', legendFontSize: 15 },
-    { name: 'Bom', population: 30, color: '#6FA8DC', legendFontColor: '#FFFFFF', legendFontSize: 15 },
-    { name: 'Neutro', population: 15, color: '#93C47D', legendFontColor: '#FFFFFF', legendFontSize: 15 },
-    { name: 'Ruim', population: 10, color: '#E06666', legendFontColor: '#FFFFFF', legendFontSize: 15 },
-    { name: 'Péssimo', population: 5, color: '#76A5AF', legendFontColor: '#FFFFFF', legendFontSize: 15 },
+    { key: 1, value: 40, svg: {fill:'#FFD966'}, name: 'Excelente'},
+    { key: 2, value: 30, svg: {fill:'#6FA8DC'}, name: 'Bom'},
+    { key: 3, value: 15, svg: {fill:'#93C47D'}, name: 'Neutro'},
+    { key: 4, value: 10, svg: {fill:'#E06666'}, name: 'Ruim'},
+    { key: 5, value: 5, svg: {fill:'#76A5AF'}, name: 'Péssimo'},
   ];
-
-  const screenWidth = Dimensions.get('window').width;
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Relatório</Text>
       <PieChart
+        style={{ height: 200, marginVertical: 20 }}
+        outerRadius={'70%'}
+        innerRadius={10}
         data={data}
-        width={screenWidth - 40}
-        height={220}
-        chartConfig={{
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        }}
-        accessor="population"
-        backgroundColor="transparent"
-        paddingLeft="15"
-        absolute
       />
       <View style={styles.legendContainer}>
         {data.map((item, index) => (
           <View key={index} style={styles.legendItem}>
-            <View style={[styles.colorBox, { backgroundColor: item.color }]} />
+            <View style={[styles.colorBox, { backgroundColor: item.svg.fill }]} />
             <Text style={styles.legendText}>{item.name}</Text>
           </View>
         ))}
@@ -46,6 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#372775',
     padding: 20,
   },
+
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -53,19 +46,23 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: '#FFFFFF',
   },
+
   legendContainer: {
     marginTop: 20,
   },
+
   legendItem: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
   },
+
   colorBox: {
     width: 20,
     height: 20,
     marginRight: 10,
   },
+
   legendText: {
     fontSize: 16,
     color: '#FFFFFF',
