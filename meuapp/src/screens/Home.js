@@ -12,6 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import app from '../firebase/config';
+import {useSelector} from 'react-redux';
 
 const Card = ({ iconName, title, date, onPress, isPortrait, imageUri }) => {
   const iconSize = isPortrait ? 128 : 64;
@@ -38,6 +39,10 @@ const Card = ({ iconName, title, date, onPress, isPortrait, imageUri }) => {
 };
 
 const Home = ({ navigation, route }) => {
+
+  const email = useSelector((state) => state.login.email)
+  const password = useSelector((state) => state.login.password)
+
   const [isPortrait, setIsPortrait] = useState(true);
   const [cardData, setCardData] = useState([]);
 
