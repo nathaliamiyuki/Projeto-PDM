@@ -10,7 +10,8 @@ import {
   Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase/config';
 import app from '../firebase/config';
 import {useSelector} from 'react-redux';
 
@@ -48,12 +49,12 @@ const Home = ({ navigation, route }) => {
 
   useEffect(() => {
     const fetchCards = async () => {
-      const db = getFirestore(app);
       const cardCollection = collection(db, 'cards');
       const cardSnapshot = await getDocs(cardCollection);
       const cards = cardSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setCardData(cards);
+    setCardData(cards);
     };
+
 
     fetchCards();
   }, []);

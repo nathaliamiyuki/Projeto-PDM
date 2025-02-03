@@ -11,7 +11,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import { Alert } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { getFirestore, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { db } from '../firebase/config';
+import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import app from '../firebase/config';
 
 const ModificarPesquisa = ({ navigation, route }) => {
@@ -21,8 +22,6 @@ const ModificarPesquisa = ({ navigation, route }) => {
   const [date, setDate] = useState(card.date);
   const [imageUri, setImageUri] = useState(card.imageUri);
   const [modalVisible, setModalVisible] = useState(false);
-
-  const db = getFirestore(app);
 
   const mostraModal = () => setModalVisible(true);
   const ocultaModal = () => setModalVisible(false);

@@ -15,7 +15,8 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 
 import app from '../firebase/config';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase/config';
+import { collection, addDoc } from 'firebase/firestore';
 
 const NovaPesquisa = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -24,8 +25,7 @@ const NovaPesquisa = ({ navigation }) => {
   const [dateError, setDateError] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [imageUri, setImageUri] = useState('');
-
-  const db = getFirestore(app);
+  
   const cardCollection = collection(db, 'cards');
 
   const AcoesPesquisa = async () => {
