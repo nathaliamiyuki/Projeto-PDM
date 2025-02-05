@@ -12,7 +12,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { auth_mod } from '../firebase/config';
 import { useDispatch } from 'react-redux';
-import { reducerSetLogin } from 'redux/loginSlice';
+import { reducerSetLogin } from '../../redux/loginSlice';
 
 const Login = (props) => {
   const [email, setEmail] = useState('');

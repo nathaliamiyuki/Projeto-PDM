@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { PieChart } from 'react-native-svg-charts';
+import { PieChart } from 'react-native-svg';
 
 const RelatorioPesquisa = () => {
   const data = [
