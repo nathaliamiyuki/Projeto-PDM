@@ -42,7 +42,6 @@ const Card = ({ iconName, title, date, onPress, isPortrait, imageUri }) => {
 const Home = ({ navigation, route }) => {
 
   const email = useSelector((state) => state.login.email)
-  const password = useSelector((state) => state.login.password)
 
   const [isPortrait, setIsPortrait] = useState(true);
   const [cardData, setCardData] = useState([]);

@@ -14,7 +14,7 @@ import AgradecimentoPartic from './src/screens/AgradecimentoPartic';
 import ModificarPesquisa from './src/screens/ModificarPesquisa';
 import Drawer from './src/screens/Drawer';
 import RelatorioPesquisa from './src/screens/RelatorioPesquisa';
-
+import { store } from './redux/store';
 
 const Stack = createStackNavigator();
 
